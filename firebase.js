@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, doc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { getFirestore, doc, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -51,7 +51,7 @@ const db = getFirestore(app);
 //     }
 // }
 
-// Function to aggregate item data and product stock management data
+// // Function to aggregate item data and product stock management data
 // async function aggregateData() {
 //     try {
 //         const itemData = await getItemData();
@@ -60,7 +60,7 @@ const db = getFirestore(app);
 //         if (!itemData || !stockData) {
 //             console.error("Failed to retrieve item data or product stock management data.");
 //             return null;
-//         }
+//         }else(itemData)
 
 //         // Merge the data as needed
 //         const aggregatedData = {
@@ -144,3 +144,95 @@ const db = getFirestore(app);
 //     });
 //   }
   
+
+// const orgDocId = "saluni-fashion";
+
+// const itemsRef = collection(doc(db, "organizations", orgDocId), "products_stock_management");
+
+// // Create a query to find the document within the subcollection "items"
+// const itemsQuery = query(
+//   itemsRef,
+//   where("product_id", "==", "00100"),
+//   orderBy("product_id")   // create an boolean for selecting whether inventory or non inventory
+// );
+
+// const querySnapshots = await getDocs(itemsQuery);
+
+// // Iterate over the query results
+// querySnapshots.forEach((doc) => {
+//   console.log(doc.id, " => ", doc.data());
+
+// })
+
+// const itemsRefs = collection(doc(db, "organizations", orgDocId), "items");
+
+// // Create a query to find the document within the subcollection "items"
+// const itemsQuerys = query(
+//   itemsRefs,
+//   where("item_id", "==", "00100"),
+//   orderBy("item_id")   // create an boolean for selecting whether inventory or non inventory
+// );
+
+
+// const querySnapshotss = await getDocs(itemsQuerys);
+
+
+// const matchingDocuments = [];
+
+// // Iterate over the query results
+// querySnapshotss.forEach((doc) => {
+//   const itemdata = doc.data();
+
+// })
+
+const orgDocId = "saluni-fashion";
+
+// Reference to the 'items' collection
+const itemsRef = collection(doc(db, "organizations", orgDocId), "items");
+
+// Query to find documents in the 'items' collection where 'item_id' is '00100'
+const itemsQuery = query(
+  itemsRef,
+  where("item_id", "!==", "00101")
+);
+
+// Retrieve documents from the 'items' collection
+const itemQuerySnapshot = await getDocs(itemsQuery);
+
+// Array to store promises of queries
+const promises = [];
+
+// Iterate over the documents in the 'items' collection
+itemQuerySnapshot.forEach((itemDoc) => {
+  const itemData = itemDoc.data();
+
+  // Reference to the 'products_stock_management' collection
+  const productsStockRef = collection(doc(db, "organizations", orgDocId), "products_stock_management");
+
+  // Query to find documents in the 'products_stock_management' collection where 'product_id' is equal to the 'item_id' from 'items' collection
+  const productsStockQuery = query(
+    productsStockRef,
+    where("product_id", "==", itemData.item_id)
+  );
+
+  // Add the promise of the query to the array
+  promises.push(getDocs(productsStockQuery));
+});
+
+// Wait for all promises to resolve
+const snapshots = await Promise.all(promises);
+
+// Array to store matching documents
+const matchingDocuments = [];
+
+// Iterate over the query snapshots
+snapshots.forEach((productsStockSnapshot) => {
+  // Iterate over the documents in the 'products_stock_management' collection
+  productsStockSnapshot.forEach((productStockDoc) => {
+    // Add the document data to the array if 'product_id' matches 'item_id'
+    matchingDocuments.push(productStockDoc.data());
+  });
+});
+
+// Output the matching documents
+console.log("Matching Documents:", matchingDocuments);
