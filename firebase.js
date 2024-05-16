@@ -94,53 +94,53 @@ const db = getFirestore(app);
 // // Call the function to fetch and aggregate data
 // fetchDataAndAggregate();
 
-var productsCollection = collection(db, "organizations", "saluni-fashion", "items");
-var otherCollection = collection(db, "organizations", "saluni-fashion", "products_stock_management");
+// var productsCollection = collection(db, "organizations", "saluni-fashion", "items");
+// var otherCollection = collection(db, "organizations", "saluni-fashion", "products_stock_management");
 
 
-// Function to read data from products collection
-function readProductsData() {
-    if (productsCollection === null){console.log("null");
+// // Function to read data from products collection
+// function readProductsData() {
+//     if (productsCollection === null){console.log("null");
 
-    }else{
-        console.log(productsCollection);
-    }
-    productsCollection.get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        // Get the product ID from each document
-        var productId = doc.id;
+//     }else{
+//         console.log(productsCollection);
+//     }
+//     productsCollection.get().then(function(querySnapshot) {
+//       querySnapshot.forEach(function(doc) {
+//         // Get the product ID from each document
+//         var productId = doc.id;
         
-        // Get other data from the product document
-        var productData = doc.data();
+//         // Get other data from the product document
+//         var productData = doc.data();
         
-        // Process the data as needed
-        console.log("Product ID: ", productData.item_id);
-        console.log("Product Data: ", productData.name);
+//         // Process the data as needed
+//         console.log("Product ID: ", productData.item_id);
+//         console.log("Product Data: ", productData.name);
         
-        // Call a function to read data from other collection based on product ID
-        // readOtherCollectionData(productId);
-      });
-    }).catch(function(error) {
-      console.log("Error getting products documents: ", error);
-    });
-  }
-  readProductsData();
-  // Function to read data from other collection based on product ID
-  function readOtherCollectionData(productId) {
-    otherCollection.where("product-id", "==", productId).get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        // Get data from the document in the other collection
-        var otherData = doc.data();
+//         // Call a function to read data from other collection based on product ID
+//         // readOtherCollectionData(productId);
+//       });
+//     }).catch(function(error) {
+//       console.log("Error getting products documents: ", error);
+//     });
+//   }
+//   readProductsData();
+//   // Function to read data from other collection based on product ID
+//   function readOtherCollectionData(productId) {
+//     otherCollection.where("product-id", "==", productId).get().then(function(querySnapshot) {
+//       querySnapshot.forEach(function(doc) {
+//         // Get data from the document in the other collection
+//         var otherData = doc.data();
         
-        // Get the quantity field from the other data
-        var quantity = otherData.quantity;
+//         // Get the quantity field from the other data
+//         var quantity = otherData.quantity;
         
-        // Process the other data as needed
-        console.log("Quantity for Product ID", productId, ": ", quantity);
-        console.log("Other Data: ", otherData);
-      });
-    }).catch(function(error) {
-      console.log("Error getting other collection documents: ", error);
-    });
-  }
+//         // Process the other data as needed
+//         console.log("Quantity for Product ID", productId, ": ", quantity);
+//         console.log("Other Data: ", otherData);
+//       });
+//     }).catch(function(error) {
+//       console.log("Error getting other collection documents: ", error);
+//     });
+//   }
   
