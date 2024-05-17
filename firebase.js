@@ -193,7 +193,7 @@ const itemsRef = collection(doc(db, "organizations", orgDocId), "items");
 // Query to find documents in the 'items' collection where 'item_id' is '00100'
 const itemsQuery = query(
   itemsRef,
-  where("item_id", "!==", "00101")
+  where("item_id", "!=", "")
 );
 
 // Retrieve documents from the 'items' collection
@@ -205,7 +205,7 @@ const promises = [];
 // Iterate over the documents in the 'items' collection
 itemQuerySnapshot.forEach((itemDoc) => {
   const itemData = itemDoc.data();
-
+console.log("items table",itemData);
   // Reference to the 'products_stock_management' collection
   const productsStockRef = collection(doc(db, "organizations", orgDocId), "products_stock_management");
 
