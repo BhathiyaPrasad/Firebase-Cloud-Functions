@@ -3,13 +3,13 @@ import { getFirestore, doc, collection, getDocs, query, where, orderBy } from "h
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAW-tl3Y5dtKWgNJG_rEb6YH7fcacs-wq0",
-    authDomain: "bhathiya-cloud-functions-242d4.firebaseapp.com",
-    projectId: "bhathiya-cloud-functions-242d4",
-    storageBucket: "bhathiya-cloud-functions-242d4.appspot.com",
-    messagingSenderId: "969048079411",
-    appId: "1:969048079411:web:3c8c2439a7b966596ef746",
-    measurementId: "G-7MEMK82J4G"
+    apiKey: "Your api key",
+    authDomain: "your authdomain",
+    projectId: "your preojectid",
+    storageBucket: "yourstorage bucket",
+    messagingSenderId: "your message sendid",
+    appId: "your app id",
+    measurementId: "measuremetid"
   };
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);
